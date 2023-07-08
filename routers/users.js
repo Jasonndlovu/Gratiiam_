@@ -22,7 +22,7 @@ router.post(`/`, async (req, res)=>{
             name: req.body.name,
             surname: req.body.surname,
             email: req.body.email,
-            passwordHash: bcrypt.hashSync(req.body.password + bcrypt.genSaltSync(10)),
+            passwordHash: bcrypt.hashSync(req.body.password, 10),
             phone: req.body.phone,
             street: req.body.street,
             apartment: req.body.apartment,
@@ -47,7 +47,7 @@ router.put(`/:id`,async (req, res) =>{
     }
     const userExist = await User.findById(req.params.id);
     let newPassword
-    if(req.body.password){newPassword = bcrypt.hashSync(req.body.password + bcrypt.genSaltSync(10))}else{newPassword = userExist.passwordHash;}
+    if(req.body.password){newPassword = bcrypt.hashSync(req.body.password, 10)}else{newPassword = userExist.passwordHash;}
     let user = await User.findByIdAndUpdate(
         req.params.id,{
             name: req.body.name,
